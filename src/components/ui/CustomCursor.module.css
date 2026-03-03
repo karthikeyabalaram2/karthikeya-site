@@ -1,0 +1,21 @@
+.cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--color-flash);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    backdrop-filter: blur(2px);
+    transition: width 0.3s, height 0.3s, background-color 0.3s;
+}
+
+/* We can add 'hover' states via global classes later if needed */
+body.hovering .cursor {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.1);
+}

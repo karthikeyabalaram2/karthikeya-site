@@ -1,0 +1,196 @@
+/* ──────────────────────────────────────────────
+   HEADER  –  Desktop + Mobile responsive
+────────────────────────────────────────────── */
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.6rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    pointer-events: none;
+    /* subtle frosted glass feel */
+    background: linear-gradient(to bottom, rgba(2, 4, 10, 0.5) 0%, transparent 100%);
+}
+
+/* ── Logo ── */
+.logo {
+    font-family: var(--font-mono);
+    font-size: 1.3rem;
+    font-weight: 700;
+    pointer-events: auto;
+    letter-spacing: 1px;
+}
+
+.logo a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.logo a:hover {
+    color: rgba(255, 210, 100, 0.9);
+}
+
+/* ── Desktop nav ── */
+.nav {
+    display: flex;
+    gap: 2rem;
+    pointer-events: auto;
+}
+
+.navLink,
+.navLinkActive {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    position: relative;
+    transition: color 0.3s;
+    padding-bottom: 3px;
+}
+
+.navLink::after,
+.navLinkActive::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background: rgba(255, 210, 100, 0.7);
+    transition: width 0.3s ease;
+    width: 0;
+}
+
+.navLink:hover {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.navLink:hover::after {
+    width: 100%;
+}
+
+.navLinkActive {
+    color: rgba(255, 210, 100, 0.9);
+}
+
+.navLinkActive::after {
+    width: 100%;
+}
+
+/* ── Hamburger button (hidden on desktop) ── */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+    pointer-events: auto;
+    cursor: pointer;
+    background: none;
+    border: none;
+    z-index: 1100;
+}
+
+.bar {
+    display: block;
+    height: 1.5px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 2px;
+    transition: transform 0.35s ease, opacity 0.25s ease, width 0.3s ease;
+    transform-origin: center;
+}
+
+/* Animated X state */
+.barTop {
+    transform: translateY(6.5px) rotate(45deg);
+}
+
+.barMid {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.barBot {
+    transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* ── Full-screen mobile overlay ── */
+.mobileOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: rgba(2, 4, 10, 0.97);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 7rem 2.5rem 3rem;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.mobileNav {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.mobileNavLink {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    font-family: var(--font-sans);
+    font-size: clamp(2rem, 8vw, 3rem);
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    letter-spacing: -1px;
+    transition: color 0.25s, transform 0.25s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding-bottom: 1.5rem;
+}
+
+.mobileNavLink:last-child {
+    border-bottom: none;
+}
+
+.mobileNavLink:hover {
+    color: rgba(255, 210, 100, 0.95);
+    transform: translateX(8px);
+}
+
+.mobileNavNum {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: rgba(255, 200, 80, 0.6);
+    letter-spacing: 1px;
+    margin-top: 4px;
+}
+
+/* ── Mobile breakpoint ── */
+@media (max-width: 768px) {
+    .header {
+        padding: 1.2rem 1.6rem;
+    }
+
+    /* Hide desktop nav, show hamburger */
+    .nav {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .mobileOverlay {
+        display: flex;
+    }
+}

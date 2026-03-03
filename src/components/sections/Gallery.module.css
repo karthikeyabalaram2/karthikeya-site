@@ -1,0 +1,80 @@
+.gallerySection {
+    position: relative;
+    padding: 2rem 2rem 8rem 2rem;
+    min-height: 150vh;
+    background-color: var(--color-void);
+    overflow: hidden;
+    z-index: 10;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 6rem;
+    color: var(--color-flash);
+}
+
+.header h2 {
+    font-family: var(--font-mono);
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.header p {
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.masonryGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    will-change: transform;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.imageItem {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    filter: grayscale(100%);
+    transition: filter 0.5s ease;
+}
+
+.imageItem:hover {
+    filter: grayscale(0%);
+}
+
+.imageItem img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transform: scale(1.05);
+    /* Slight zoom for parallax feel later if needed */
+}
+
+.bottomMask {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(to top, var(--color-void), transparent);
+    pointer-events: none;
+    z-index: 5;
+}
+
+@media (max-width: 768px) {
+    .masonryGrid {
+        grid-template-columns: 1fr;
+    }
+}

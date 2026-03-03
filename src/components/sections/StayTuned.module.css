@@ -1,0 +1,101 @@
+.section {
+    padding: 2rem 2rem 8rem 2rem;
+    min-height: 80vh;
+    background-color: var(--color-void);
+    position: relative;
+    z-index: 10;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.header {
+    font-family: var(--font-sans);
+    font-size: 3rem;
+    color: var(--color-flash);
+    margin-bottom: 4rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.cardWrapper {
+    position: relative;
+    background: var(--color-surface);
+    border-radius: 12px;
+    overflow: hidden;
+    /* Create a border via padding/background or just border */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    /* group hover handled by parent selector */
+}
+
+/* The Spotlight Overlay */
+.spotlight {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 1;
+    /* On top of background but below content? No, needs to be mask. */
+    /* Alternative approach: use the gradient as a mask or border. */
+    /* Let's keep it simple: Just a glowing overlay that becomes visible */
+    mix-blend-mode: overlay;
+}
+
+.cardWrapper:hover .spotlight {
+    opacity: 1;
+}
+
+.cardContent {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.category {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.title {
+    font-family: var(--font-sans);
+    font-size: 1.5rem;
+    color: var(--color-flash);
+    margin-bottom: auto;
+    /* Push date/button down */
+    font-weight: 500;
+}
+
+.date {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 2rem;
+}
+
+.readMore {
+    margin-top: 1rem;
+    color: var(--color-text);
+    text-align: left;
+    padding: 0;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.cardWrapper:hover .readMore {
+    color: var(--color-accent);
+}

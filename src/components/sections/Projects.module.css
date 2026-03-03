@@ -1,0 +1,122 @@
+.section {
+    padding: 2rem 0 0 0;
+    /* No bottom padding because of the massive text */
+    min-height: 100vh;
+    background-color: var(--color-void);
+    position: relative;
+    z-index: 10;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem 2rem;
+    flex: 1;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 4rem;
+    margin-top: 4rem;
+}
+
+@media (min-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    position: relative;
+}
+
+.imageContainer {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3/4;
+    /* Tall images */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* We don't hide overflow so the rotated image and number can bleed out slightly if needed */
+}
+
+.image {
+    width: 80%;
+    height: 90%;
+    object-fit: cover;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    background-color: var(--color-surface);
+}
+
+.numberOverlay {
+    position: absolute;
+    bottom: -20px;
+    left: -10px;
+    font-family: var(--font-serif);
+    font-size: 15rem;
+    /* Massive number */
+    line-height: 0.8;
+    color: var(--color-flash);
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.content {
+    padding: 0 1rem;
+}
+
+.description {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.massiveTextContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6rem 0 2rem 0;
+    /* Proper padding above cards */
+}
+
+.massiveText {
+    font-family: var(--font-serif);
+    font-size: clamp(4rem, 18vw, 20rem);
+    /* Scaled down slightly to fit better horizontally */
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+    color: var(--color-flash);
+    text-align: center;
+    letter-spacing: -2px;
+}
+
+@media (max-width: 768px) {
+    .imageContainer {
+        width: 85%;
+        /* Reduce size on mobile */
+        margin: 0 auto;
+        /* Keep centered */
+    }
+
+    .numberOverlay {
+        font-size: 10rem;
+    }
+
+    .massiveText {
+        font-size: clamp(3rem, 20vw, 8rem);
+    }
+}
