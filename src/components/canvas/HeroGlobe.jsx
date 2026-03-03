@@ -3,71 +3,44 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { useVideoTexture, Float } from '@react-three/drei';
 import * as THREE from 'three';
 
-import globeVideo from '../../assets/Globe-movement1.mp4';
-
-// Star trails removed
-
-function GlobePlane() {
-    const texture = useTexture(globeImg);
-
-    // Calculate aspect ratio to avoid "squeezing"
-    // Default to 1 if not loaded yet (though Suspense handles this)
-    const aspect = texture.image ? texture.image.width / texture.image.height : 1;
-    // Globe is bigger now
-    const height = 7; // Increased from 5
-    const width = height * aspect;
-
-    return (
-        <mesh position={[0, 0, 0.1]}>
-            <planeGeometry args={[width, height]} />
-            {/* React to light to get the "shine" - roughness 0.4 for matte-ish but specular highlight */}
-            <meshStandardMaterial
-                map={texture}
-                transparent
-                opacity={1}
-                toneMapped={false}
-                roughness={0.4}
-                metalness={0.2}
-            />
-        </mesh>
-    );
-}
+// Using optimised WebM for Vercel/CDN compatibility and faster streaming
+import bgVideo from '../../assets/bg-2.webm';
 
 function VideoBackground({ seekTo = 0 }) {
-    const texture = useVideoTexture(globeVideo, {
+    const texture = useVideoTexture(bgVideo, {
         muted: true,
         loop: true,
         start: true,
         crossOrigin: 'Anonymous',
+        preload: 'auto',
     });
 
-    // Seek the video to `seekTo` seconds once the element is ready
-    // This lets return visits skip the opening seconds of the clip
     const videoObj = texture.image;
+    // Seek to `seekTo` on return visits (skips the cinematic opening)
+    // Run this ONLY once when videoObj becomes available to prevent jitter
     useEffect(() => {
-        if (videoObj && seekTo > 0) {
-            const seek = () => { videoObj.currentTime = seekTo; };
-            if (videoObj.readyState >= 1) {
-                seek();
-            } else {
-                videoObj.addEventListener('loadedmetadata', seek, { once: true });
-            }
+        if (!videoObj || seekTo === 0) return;
+
+        const seek = () => { videoObj.currentTime = seekTo; };
+
+        if (videoObj.readyState >= 1) {
+            seek();
+        } else {
+            videoObj.addEventListener('loadedmetadata', seek, { once: true });
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [videoObj, seekTo]);
 
-    // Dynamically calculate aspect ratio to prevent stretching
-    const aspect = (videoObj && videoObj.videoWidth && videoObj.videoHeight)
+    const aspect = (videoObj?.videoWidth && videoObj?.videoHeight)
         ? videoObj.videoWidth / videoObj.videoHeight
         : 16 / 9;
 
     const height = 11;
     const width = height * aspect;
 
-    const pulseRef = useRef();
+    const matRef = useRef();
     useFrame(({ clock }) => {
-        if (pulseRef.current) {
-            pulseRef.current.opacity = 0.6 + Math.sin(clock.elapsedTime * 2) * 0.1;
+        if (matRef.current) {
+            matRef.current.opacity = 0.6 + Math.sin(clock.elapsedTime * 2) * 0.1;
         }
     });
 
@@ -75,7 +48,7 @@ function VideoBackground({ seekTo = 0 }) {
         <mesh position={[0, 0, -2]}>
             <planeGeometry args={[width, height]} />
             <meshBasicMaterial
-                ref={pulseRef}
+                ref={matRef}
                 map={texture}
                 transparent={false}
                 opacity={1}
@@ -98,8 +71,6 @@ export default function HeroGlobe({ seekTo = 0 }) {
                         <VideoBackground seekTo={seekTo} />
                     </Float>
                 </React.Suspense>
-
-                {/* Space reserved for new section/animation per user request */}
             </Canvas>
         </div>
     );

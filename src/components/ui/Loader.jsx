@@ -41,7 +41,7 @@ const Loader = ({ finishLoading }) => {
             </div>
 
             <div className={styles.centerContent}>
-                <h1 className={styles.logoText}>KARTHIKEYA <span>Balram</span></h1>
+                <h1 className={styles.logoText}>KARTHIKEYA</h1>
             </div>
 
             <div className={styles.bottomSection}>

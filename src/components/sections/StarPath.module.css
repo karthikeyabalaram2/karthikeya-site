@@ -5,7 +5,7 @@
 .container {
     background: linear-gradient(to bottom, #02040a 0%, #050912 40%, #02040a 100%);
     color: #fff;
-    padding: 8vh 0 12vh;
+    padding: 8vh 0 200px;
     position: relative;
     overflow-x: clip;
     overflow-y: visible;

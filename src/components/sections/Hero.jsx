@@ -4,7 +4,6 @@ import HeroGlobe from '../canvas/HeroGlobe';
 import styles from './Hero.module.css';
 
 const INTRO_DURATION = 5000; // ms – title reveals
-const LETTERBOX_RETRACT = 4000; // ms – bars start sliding
 
 // ── Module-level flag: persists across component re-mounts within the session
 // First page load → runs full cinematic intro
@@ -14,7 +13,6 @@ let hasSeenIntro = false;
 const Hero = () => {
     const isFirstVisit = !hasSeenIntro;
 
-    const [letterboxVisible, setLetterboxVisible] = useState(isFirstVisit);
     const [introComplete, setIntroComplete] = useState(!isFirstVisit);
 
     // ── Scroll-driven canvas fade ─────────────────────────────────────
@@ -37,9 +35,6 @@ const Hero = () => {
         // Lock Lenis scroll
         const stopTimer = setTimeout(() => window.__lenis?.stop(), 50);
 
-        // Start retracting the letterbox bars at 4s
-        const barTimer = setTimeout(() => setLetterboxVisible(false), LETTERBOX_RETRACT);
-
         // At 5s: unlock scroll and show content
         const introTimer = setTimeout(() => {
             window.__lenis?.start();
@@ -48,7 +43,6 @@ const Hero = () => {
 
         return () => {
             clearTimeout(stopTimer);
-            clearTimeout(barTimer);
             clearTimeout(introTimer);
             window.__lenis?.start();
         };
@@ -71,28 +65,21 @@ const Hero = () => {
             </motion.div>
 
             {/* ── Letterbox Bars (only on first visit) ─────────── */}
-            <AnimatePresence>
-                {letterboxVisible && (
-                    <motion.div
-                        key="lb-top"
-                        className={`${styles.letterbox} ${styles.letterboxTop}`}
-                        initial={{ y: 0, opacity: 1 }}
-                        exit={{ y: '-100%', opacity: 0 }}
-                        transition={{ duration: 1.4, ease: [0.76, 0, 0.24, 1] }}
-                    />
-                )}
-            </AnimatePresence>
-            <AnimatePresence>
-                {letterboxVisible && (
-                    <motion.div
-                        key="lb-bottom"
-                        className={`${styles.letterbox} ${styles.letterboxBottom}`}
-                        initial={{ y: 0, opacity: 1 }}
-                        exit={{ y: '100%', opacity: 0 }}
-                        transition={{ duration: 1.4, ease: [0.76, 0, 0.24, 1] }}
-                    />
-                )}
-            </AnimatePresence>
+            {/* ── Letterbox Bars ─────────── */}
+            <>
+                <motion.div
+                    className={`${styles.letterbox} ${styles.letterboxTop}`}
+                    initial={{ y: 0 }}
+                    animate={{ y: isFirstVisit ? '-100%' : '-100%' }}
+                    transition={{ delay: 3.5, duration: 2, ease: [0.76, 0, 0.24, 1] }}
+                />
+                <motion.div
+                    className={`${styles.letterbox} ${styles.letterboxBottom}`}
+                    initial={{ y: 0 }}
+                    animate={{ y: isFirstVisit ? '100%' : '100%' }}
+                    transition={{ delay: 3.5, duration: 2, ease: [0.76, 0, 0.24, 1] }}
+                />
+            </>
 
             {/* ── Vignette ──────────────────────────────────────── */}
             <motion.div
@@ -103,62 +90,43 @@ const Hero = () => {
             />
 
             {/* ── Title + Tagline ───────────────────────────────── */}
-            <AnimatePresence>
-                {introComplete && (
-                    <motion.div
-                        key="content"
-                        className={styles.contentOverlay}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: isFirstVisit ? 0.5 : 0.1 }}
-                    >
-                        <motion.span
-                            className={styles.firstName}
-                            initial={{ opacity: 0, y: 20, letterSpacing: '16px' }}
-                            animate={{ opacity: 1, y: 0, letterSpacing: '3px' }}
-                            transition={{ duration: isFirstVisit ? 1.8 : 0.4, ease: [0.16, 1, 0.3, 1] }}
-                        >
-                            
-                        </motion.span>
+            <motion.div
+                className={styles.contentOverlay}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: introComplete ? 1 : 0 }}
+                transition={{ duration: isFirstVisit ? 0.5 : 0.1 }}
+                style={{ pointerEvents: introComplete ? 'auto' : 'none' }}
+            >
+                <motion.span
+                    className={styles.lastName}
+                    initial={{ opacity: 0, y: isFirstVisit ? 50 : 10 }}
+                    animate={{ opacity: introComplete ? 1 : 0, y: introComplete ? 0 : (isFirstVisit ? 50 : 10) }}
+                    transition={{ duration: isFirstVisit ? 1.8 : 0.4, delay: isFirstVisit ? 0.25 : 0, ease: [0.16, 1, 0.3, 1] }}
+                >
+                    KARTHIKEYA
+                </motion.span>
 
-                        <motion.span
-                            className={styles.lastName}
-                            initial={{ opacity: 0, y: isFirstVisit ? 50 : 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: isFirstVisit ? 1.8 : 0.4, delay: isFirstVisit ? 0.25 : 0, ease: [0.16, 1, 0.3, 1] }}
-                        >
-                            KARTHIKEYA
-                        </motion.span>
-
-                        <motion.p
-                            className={styles.tagline}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: isFirstVisit ? 1.4 : 0.4, delay: isFirstVisit ? 0.8 : 0 }}
-                        >
-                            Where Finance meets Creativity!
-                        </motion.p>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                <motion.p
+                    className={styles.tagline}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: introComplete ? 1 : 0, y: introComplete ? 0 : 10 }}
+                    transition={{ duration: isFirstVisit ? 1.4 : 0.4, delay: isFirstVisit ? 0.8 : 0 }}
+                >
+                    Where Finance meets Creativity!
+                </motion.p>
+            </motion.div>
 
             {/* ── Scroll Indicator ──────────────────────────────── */}
-            <AnimatePresence>
-                {introComplete && (
-                    <motion.div
-                        key="scroll-hint"
-                        className={styles.scrollIndicator}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ delay: isFirstVisit ? 1.5 : 0.3, duration: 1 }}
-                        style={{ opacity: scrollIndicatorO }}
-                    >
-                        <div className={styles.mouse} />
-                        <p>Scroll to Enter</p>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+            <motion.div
+                className={styles.scrollIndicator}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: introComplete ? 1 : 0 }}
+                transition={{ delay: isFirstVisit && introComplete ? 1.5 : (introComplete ? 0.3 : 0), duration: 1 }}
+                style={{ opacity: scrollIndicatorO, pointerEvents: introComplete ? 'auto' : 'none' }}
+            >
+                <div className={styles.mouse} />
+                <p>Scroll to Enter</p>
+            </motion.div>
 
         </section>
     );

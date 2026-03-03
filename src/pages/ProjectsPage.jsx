@@ -6,7 +6,7 @@ import PageWrapper from '../components/layout/PageWrapper';
 const ProjectsPage = () => {
     return (
         <PageWrapper>
-            <div style={{ paddingTop: '80px', minHeight: '100vh' }}>
+            <div style={{ paddingTop: '80px', paddingBottom: '200px', minHeight: '100vh' }}>
                 <Projects />
             </div>
             <Footer />

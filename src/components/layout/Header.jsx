@@ -4,10 +4,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import styles from './Header.module.css';
 
 const NAV_LINKS = [
-    { to: '/about', label: 'About' },
-    { to: '/projects', label: 'Projects' },
     { to: '/articles', label: 'Articles' },
+    { to: '/projects', label: 'Projects' },
     { to: '/gallery', label: 'Gallery' },
+    { to: '/about', label: 'About' },
 ];
 
 const Header = () => {

@@ -13,9 +13,15 @@
     transition: width 0.3s, height 0.3s, background-color 0.3s;
 }
 
-/* We can add 'hover' states via global classes later if needed */
 body.hovering .cursor {
     width: 60px;
     height: 60px;
     background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Hide on touch / mobile devices — cursor is only meaningful with a mouse */
+@media (pointer: coarse) {
+    .cursor {
+        display: none !important;
+    }
 }

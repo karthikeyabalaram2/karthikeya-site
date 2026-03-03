@@ -8,15 +8,6 @@ const Footer = () => {
         <footer className={styles.footer}>
             <div className={styles.container}>
                 <div className={styles.column}>
-                    <h3 className={styles.heading}><Link to="/about">About Me</Link></h3>
-                    <ul className={styles.list}>
-                        <li>Background</li>
-                        <li>Zero-Gravity Skills</li>
-                        <li>Contact</li>
-                    </ul>
-                </div>
-
-                <div className={styles.column}>
                     <h3 className={styles.heading}><Link to="/articles">Articles</Link></h3>
                     <ul className={styles.list}>
                         <li>The Art of Void</li>
@@ -40,6 +31,15 @@ const Footer = () => {
                         <li>Parallax Exploration</li>
                         <li>Selected Works</li>
                         <li>Case Studies</li>
+                    </ul>
+                </div>
+
+                <div className={styles.column}>
+                    <h3 className={styles.heading}><Link to="/about">About Me</Link></h3>
+                    <ul className={styles.list}>
+                        <li>Background</li>
+                        <li>Zero-Gravity Skills</li>
+                        <li>Contact</li>
                     </ul>
                 </div>
             </div>
